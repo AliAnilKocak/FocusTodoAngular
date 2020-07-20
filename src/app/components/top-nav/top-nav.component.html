@@ -1,0 +1,125 @@
+<nz-drawer
+  [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzMaskClosable]="true"
+  [nzWidth]="480"
+  [nzVisible]="visible"
+  [nzPlacement]="drawerPlacement"
+  nzTitle="Create"
+  (nzOnClose)="close()"
+>
+  <form nz-form>
+    <div nz-row nzGutter="24">
+      <div nz-col nzSpan="24">
+        <nz-form-item>
+          <nz-form-label>Name</nz-form-label>
+          <nz-form-control>
+            <input
+              #title
+              name="title" [(ngModel)]="titleText" nz-input placeholder="please enter user name"/>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <div nz-row nzGutter="24">
+      <div nz-col nzSpan="24">
+        <nz-form-item>
+          <nz-form-label>Description</nz-form-label>
+          <nz-form-control>
+                <textarea
+                  #desc
+                  name="description"
+                  [(ngModel)]="descriptionText"
+                  nz-input
+                  placeholder="please enter url description"
+                  [nzAutosize]="{ minRows: 4, maxRows: 4 }"
+                ></textarea>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <div nz-row nzGutter="24">
+      <div nz-col nzSpan="8">
+        <nz-form-item>
+          <nz-form-label>Type</nz-form-label>
+          <nz-form-control>
+            <nz-select
+              name="time"
+              [(ngModel)]="currentSelectedTime"
+              (ngModelChange)="timeChange($event)"
+              nzPlaceHolder="Please choose the type">
+              <nz-option *ngFor="let time of times" nzLabel="{{time.title}}" nzValue="{{time.value}}"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="8">
+        <nz-form-item>
+          <nz-form-label>DateTime</nz-form-label>
+          <nz-form-control>
+            <nz-date-picker name="due_date" [(ngModel)]="currentDate"
+                            (ngModelChange)="onChangeDate($event)"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="8">
+        <nz-form-item>
+          <nz-form-label>Type</nz-form-label>
+          <nz-form-control>
+            <nz-select
+              name="energy"
+              [(ngModel)]="currentEnergy"
+              (ngModelChange)="EnergyChange($event)"
+              nzPlaceHolder="Please choose the type">
+              <nz-option *ngFor="let energy of energies" nzLabel="{{energy.title}}"
+                         nzValue="{{energy.value}}"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+
+  </form>
+  <div class="footer">
+    <button type="button" (click)="close()" class="ant-btn" style="margin-right: 8px;"><span>Cancel</span></button>
+    <button type="button"  class="ant-btn" style="margin-right: 8px;"><span>Loglama</span>
+    </button>
+    <button type="button"
+            (click)="createAllFields(title.value, desc.value, this.currentSelectedTime,  this.currentEnergy,this.currentDate)"
+            class="ant-btn ant-btn-primary"><span>Save</span>
+    </button>
+  </div>
+</nz-drawer>
+
+
+<div class="parent">
+  <div class="top-nav">
+    <div class="leadings">
+      <h2><a nz-button nzType="link" class="action-link" routerLink="login" href="">FOCUS TODO</a></h2>
+      <button *ngIf="isRouteAuth()" nz-button nz-dropdown [nzDropdownMenu]="menu"><i class="add-circle" nz-icon
+                                                                                     nzTheme="fill"
+                                                                                     nzType="plus-circle"></i>New Item<i
+        nz-icon nzType="down"></i></button>
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <ul *ngFor="let action of actions" nz-menu>
+          <li nz-menu-item>
+            <a (click)="open(action.id)">{{action.name}}</a>
+          </li>
+        </ul>
+      </nz-dropdown-menu>
+<!--      <nz-input-group class="nig" nzSize="small" [nzSuffix]="suffixIconSearch">-->
+<!--        <input type="text" #word nz-input placeholder="input search text" />-->
+<!--      </nz-input-group>-->
+<!--      <ng-template  #suffixIconSearch>-->
+<!--        <i (click)="search(word.value)"  nz-icon nzType="search"></i>-->
+<!--      </ng-template>-->
+    </div>
+
+    <div class="actions">
+      <a *ngIf="!isRouteAuth()" nz-button nzType="link" class="action-link" routerLink="login" href="">Login </a>
+      <a *ngIf="!isRouteAuth()" nz-button nzType="link" class="action-link" routerLink="register" href="">Register </a>
+      <a *ngIf="isRouteAuth()" nz-button nzType="link" class="action-link" routerLink="register" href="">Settings </a>
+      <a *ngIf="isRouteAuth()" (click)="logout()" nz-button nzType="link">Logout</a>
+    </div>
+  </div>
+</div>
+

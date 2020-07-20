@@ -1,0 +1,39 @@
+<div *ngIf="isRouteAuth()" class="sidebar">
+  <div class="nav-items">
+    <nz-collapse>
+      <nz-collapse-panel
+        *ngFor="let panel of panels"
+        [nzHeader]="panel.name"
+        [nzActive]="panel.active"
+        [nzDisabled]="panel.disabled"
+        [ngStyle]="panel.customStyle"
+      >
+        <!--        <div *ngFor="let action of actions; let i = index" [class.active]="selectedIndex === i" (click)="setIndex(i)"-->
+        <!--             routerLink="/{{action.slug}}" class="nav-item active">-->
+        <!--          <i nz-icon nzType="{{action.icon}}" nzTheme="outline"></i>-->
+        <!--          {{action.name}}-->
+        <!--        </div>-->
+        <div *ngFor="let action of actions; let i = index" [class.active]="(selectedIndex === i) && !isFavoriteSelected && !isCompleteSelected"
+             (click)="setIndex(i,action.id)"
+             class="nav-item active">
+          <i nz-icon nzType="{{action.icon}}" nzTheme="outline"></i>
+          {{action.name}}
+        </div>
+
+
+      </nz-collapse-panel>
+    </nz-collapse>
+    <div [class.active]="isFavoriteSelected" (click)="getFavorites()"
+         class="nav-item active">
+      <i nz-icon nzType="" nzTheme="outline"></i>
+      Focus Favorite
+    </div>
+    <div [class.active]="isCompleteSelected" (click)="getCompleted()"
+         class="nav-item active">
+      <i nz-icon nzType="" nzTheme="outline"></i>
+      Focus Completed
+    </div>
+
+  </div>
+
+</div>
